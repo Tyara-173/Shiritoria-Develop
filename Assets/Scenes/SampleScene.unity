@@ -177,7 +177,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 0.392}
+  m_Color: {r: 1, g: 1, b: 1, a: 0.078431375}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -1522,6 +1522,7 @@ MonoBehaviour:
   inputField: {fileID: 966019562}
   inputNextText: {fileID: 1460379570}
   loadObj: {fileID: 1572782451}
+  mojiObj: {fileID: 3010504432019904074, guid: 10e10c5558183944db864fa5fe28c1f7, type: 3}
   cnt: 0
   lastChar: 12426
 --- !u!224 &1884881140 stripped

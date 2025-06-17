@@ -12,9 +12,11 @@ public class ShiritoriManager : MonoBehaviour
     public TMP_InputField inputField;
     public TMP_Text inputNextText;
     public GameObject loadObj;
+    public GameObject mojiObj;
     public int cnt = 0;
     public char lastChar = 'り';
-    private bool wordBool = false;
+    private List<GameObject> _mojiList = new List<GameObject>();
+    private int x, y = -6;
     void Start()
     {
         inputField.onValidateInput += ValidateHiragana;
@@ -66,7 +68,8 @@ public class ShiritoriManager : MonoBehaviour
             cnt++;
             inputField.text = "";
             inputNextText.SetText(lastChar.ToString());
-
+            SpownCube(txt);
+            
             Debug.Log(txt);
             Debug.Log(lastChar);
         }
@@ -148,5 +151,16 @@ public class ShiritoriManager : MonoBehaviour
         }
 
         return new string(result);
+    }
+
+    void SpownCube(string text)
+    {
+        foreach (var c in text)
+        {
+            GameObject moji = Instantiate(mojiObj, new Vector3(x, y, 0), Quaternion.identity, transform);
+            moji.GetComponent<MojiCube>().SetMoji(c);
+            _mojiList.Add(moji);
+            x++;
+        }
     }
 }

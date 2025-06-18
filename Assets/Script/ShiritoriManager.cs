@@ -13,19 +13,20 @@ public class ShiritoriManager : MonoBehaviour
     public TMP_Text inputNextText;
     public GameObject loadObj;
     public GameObject mojiObj;
-    public int cnt = 0;
     public char lastChar = 'り';
     private List<GameObject> _mojiList = new List<GameObject>();
-    private float x = -9;
-    private float y = -4;
+    private float x, y, size;
+    private int cnt, mojisu = 0;
     void Start()
     {
         inputField.onValidateInput += ValidateHiragana;
         try
         {
             Vector2 c = Camera.main.ViewportToWorldPoint(Vector2.zero);
-            x = c.x+0.5f;
-            y = c.y+0.5f;
+            size = -(c.x * 2) / 10;
+            x = c.x+size/2;
+            y = c.y+size/2;
+            mojiObj.transform.localScale = new Vector3(size,size,1);
         }
         catch (Exception e) {}
         
@@ -173,7 +174,13 @@ public class ShiritoriManager : MonoBehaviour
             GameObject moji = Instantiate(mojiObj, new Vector3(x, y, 0), Quaternion.identity, transform);
             moji.GetComponent<MojiCube>().SetMoji(text[i]);
             _mojiList.Add(moji);
-            x++;
+            x+=size;
+            mojisu++;
+            if (mojisu % 10 == 0)
+            {
+                x -= size * 10;
+                y += size;
+            }
         }
     }
 }

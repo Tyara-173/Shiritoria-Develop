@@ -16,10 +16,19 @@ public class ShiritoriManager : MonoBehaviour
     public int cnt = 0;
     public char lastChar = 'り';
     private List<GameObject> _mojiList = new List<GameObject>();
-    private int x, y = -6;
+    private float x = -9;
+    private float y = -4;
     void Start()
     {
         inputField.onValidateInput += ValidateHiragana;
+        try
+        {
+            Vector2 c = Camera.main.ViewportToWorldPoint(Vector2.zero);
+            x = c.x+0.5f;
+            y = c.y+0.5f;
+        }
+        catch (Exception e) {}
+        
     }
 
     void Update()
@@ -40,9 +49,13 @@ public class ShiritoriManager : MonoBehaviour
 
     public void OnTextEvent()
     {
-        inputField.ActivateInputField();
         string txt = inputField.text;
+        if (txt.Length == 0)
+        {
+            return;
+        }
         DoShiritori(txt); // 非同期で実行（待たない）
+        inputField.ActivateInputField();
     }
 
     private async void DoShiritori(string txt)
@@ -155,10 +168,10 @@ public class ShiritoriManager : MonoBehaviour
 
     void SpownCube(string text)
     {
-        foreach (var c in text)
+        for (var i = cnt == 1 ? 0 : 1; i < text.Length; i++)
         {
             GameObject moji = Instantiate(mojiObj, new Vector3(x, y, 0), Quaternion.identity, transform);
-            moji.GetComponent<MojiCube>().SetMoji(c);
+            moji.GetComponent<MojiCube>().SetMoji(text[i]);
             _mojiList.Add(moji);
             x++;
         }

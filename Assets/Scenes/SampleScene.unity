@@ -330,7 +330,7 @@ MonoBehaviour:
   m_text: "\u691C\u7D22\u4E2D"
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: e046f62df18a614418cde3d8d648441f, type: 2}
-  m_sharedMaterial: {fileID: 8010953948265734219, guid: e046f62df18a614418cde3d8d648441f, type: 2}
+  m_sharedMaterial: {fileID: 0}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -393,7 +393,7 @@ MonoBehaviour:
   m_margin: {x: 0, y: 0, z: 0, w: 0}
   m_isUsingLegacyAnimationComponent: 0
   m_isVolumetricText: 0
-  m_hasFontAssetChanged: 0
+  m_hasFontAssetChanged: 1
   m_baseMaterial: {fileID: 0}
   m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
 --- !u!222 &434033599
@@ -896,7 +896,7 @@ MonoBehaviour:
   m_text: "\u200B"
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: e046f62df18a614418cde3d8d648441f, type: 2}
-  m_sharedMaterial: {fileID: 8010953948265734219, guid: e046f62df18a614418cde3d8d648441f, type: 2}
+  m_sharedMaterial: {fileID: -2381649851889624017, guid: e046f62df18a614418cde3d8d648441f, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -1105,7 +1105,7 @@ MonoBehaviour:
   m_text: "\u3057\u308A\u3068\u308A"
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: e046f62df18a614418cde3d8d648441f, type: 2}
-  m_sharedMaterial: {fileID: 8010953948265734219, guid: e046f62df18a614418cde3d8d648441f, type: 2}
+  m_sharedMaterial: {fileID: -2381649851889624017, guid: e046f62df18a614418cde3d8d648441f, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -1260,7 +1260,7 @@ MonoBehaviour:
   m_text: 
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: e046f62df18a614418cde3d8d648441f, type: 2}
-  m_sharedMaterial: {fileID: 8010953948265734219, guid: e046f62df18a614418cde3d8d648441f, type: 2}
+  m_sharedMaterial: {fileID: -2381649851889624017, guid: e046f62df18a614418cde3d8d648441f, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -1522,7 +1522,6 @@ MonoBehaviour:
   inputNextText: {fileID: 1460379570}
   loadObj: {fileID: 1572782451}
   mojiObj: {fileID: 3010504432019904074, guid: 10e10c5558183944db864fa5fe28c1f7, type: 3}
-  cnt: 0
   lastChar: 12426
 --- !u!224 &1884881140 stripped
 RectTransform:

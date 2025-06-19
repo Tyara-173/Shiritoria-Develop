@@ -167,7 +167,7 @@ MonoBehaviour:
   m_text: "\u3042"
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: e046f62df18a614418cde3d8d648441f, type: 2}
-  m_sharedMaterial: {fileID: 8010953948265734219, guid: e046f62df18a614418cde3d8d648441f, type: 2}
+  m_sharedMaterial: {fileID: -2381649851889624017, guid: e046f62df18a614418cde3d8d648441f, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []

@@ -5,6 +5,7 @@ using UnityEngine;
 using UnityEngine.Networking;
 using TMPro;
 using System.Threading.Tasks;
+using DG.Tweening;
 
 public class ShiritoriManager : MonoBehaviour
 {
@@ -17,6 +18,7 @@ public class ShiritoriManager : MonoBehaviour
     private List<GameObject> _mojiList = new List<GameObject>();
     private float x, y, size;
     private int cnt, mojisu = 0;
+    private HashSet<string> usedWords = new HashSet<string>();
     void Start()
     {
         inputField.onValidateInput += ValidateHiragana;
@@ -71,17 +73,19 @@ public class ShiritoriManager : MonoBehaviour
 
             for (int i = txt.Length - 1; i >= 0; i--)
             {
-                if (txt[i] != 'ー')
+                if (txt[i] == 'ー')
                 {
-                    lastChar = txt[i];
-                    break;
+                    continue;
                 }
+                lastChar = txt[i];
+                break;
             }
 
             backText.text = txt;
             cnt++;
             inputField.text = "";
             inputNextText.SetText(lastChar.ToString());
+            usedWords.Add(txt);
             SpownCube(txt);
             
             Debug.Log(txt);
@@ -97,7 +101,7 @@ public class ShiritoriManager : MonoBehaviour
 
     private async Task<bool> IsShiritori(string txt)
     {
-        if (txt[0] == lastChar)
+        if (txt[0] == lastChar && !usedWords.Contains(txt))
         {
             bool isRealWord = await CheckWord(txt);
             return isRealWord;
@@ -169,6 +173,7 @@ public class ShiritoriManager : MonoBehaviour
 
     void SpownCube(string text)
     {
+        bool move = false;
         for (var i = cnt == 1 ? 0 : 1; i < text.Length; i++)
         {
             GameObject moji = Instantiate(mojiObj, new Vector3(x, y, 0), Quaternion.identity, transform);
@@ -179,8 +184,14 @@ public class ShiritoriManager : MonoBehaviour
             if (mojisu % 10 == 0)
             {
                 x -= size * 10;
-                y += size;
+                y -= size;
+                move = true;
             }
+        }
+
+        if (move)
+        {
+            Camera.main.transform.DOMoveY(-size,1f).SetRelative(true).SetEase(Ease.Linear);
         }
     }
 }

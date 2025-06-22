@@ -7,16 +7,23 @@ using TMPro;
 using System.Threading.Tasks;
 using DG.Tweening;
 using UnityEngine.UI;
-using Random = System.Random;
+using UnityEngine.SceneManagement;
 
 public class ShiritoriManager : MonoBehaviour
 {
     public Text backText;
     public InputField inputField;
     public Text inputNextText;
+    public Text mojisuText;
+    public Text gameOvermojisuText;
     public GameObject loadObj;
     public GameObject mojiObj;
+    public GameObject menu;
+    public GameObject gameOverMenu;
+    public GameObject errorText1;
+    public GameObject errorText2;
     public char lastChar = 'り';
+    private bool gameOver = false;
     private List<GameObject> _mojiList = new List<GameObject>();
     private float x, y, size;
     private int l = 15;
@@ -40,29 +47,22 @@ public class ShiritoriManager : MonoBehaviour
         }
         catch (Exception e) {}  
         
+        gameOverMenu.SetActive(false);
+        menu.SetActive(false);
+        loadObj.SetActive(false);
+        errorText2.SetActive(false);
+        errorText1.SetActive(false);
+        
     }
 
     void Update()
     {
+        if (Input.GetKeyDown(KeyCode.Escape))
+        {
+            menu.SetActive(!menu.activeSelf);
+        }
         
     }
-
-    void GameOver()
-    {
-        // 各オブジェクトに対して弾けるアニメーションを実行
-        foreach (GameObject obj in _mojiList)
-        {
-            Transform trans = obj.transform;
-            // Rigidbodyがなければ追加し、IsKinematicをtrueに設定
-            Rigidbody2D rb = trans.GetComponent<Rigidbody2D>();
-            if (rb == null)
-            {
-                rb = trans.gameObject.AddComponent<Rigidbody2D>();
-            }
-            rb.isKinematic = false;
-        }
-    }
-    
     private char ValidateHiragana(string text, int charIndex, char addedChar)
     {
         if ((addedChar >= '\u3040' && addedChar <= '\u309F') || addedChar == 'ー')
@@ -75,8 +75,27 @@ public class ShiritoriManager : MonoBehaviour
         }
     }
 
+    public void CloseMenu()
+    {
+        menu.SetActive(false);
+    }
+
+    public void Restart()
+    {
+        SceneManager.LoadScene("Game");
+    }
+
+    public void Title()
+    {
+        SceneManager.LoadScene("Title");
+    }
+
     public void OnTextEvent()
     {
+        if (gameOver || loadObj.activeSelf)
+        {
+            return;
+        }
         string txt = inputField.text;
         if (txt.Length == 0)
         {
@@ -103,45 +122,51 @@ public class ShiritoriManager : MonoBehaviour
             templast = SmallToLargeMap.GetValueOrDefault(txt[i], txt[i]);
             break;
         }
-
-        if (templast != 'ん' && isValid)
+        
+        errorText2.SetActive(false);
+        errorText1.SetActive(false);
+        if (txt[0] != lastChar || !isValid)
+        {
+            if (txt[0] != lastChar)
+            {
+                errorText2.SetActive(true);
+            }
+            else
+            {
+                errorText1.SetActive(true);
+            }
+        }
+        else if (templast == 'ん' || usedWords.Contains(txt))
+        {
+            GameOver();
+        }
+        else
         {
             Debug.Log("✅ OK");
 
+            inputField.text = "";
             lastChar = templast;
             backText.text = txt;
             cnt++;
-            inputField.text = "";
             inputNextText.text = lastChar.ToString();
             usedWords.Add(txt);
             SpownCube(txt);
+            mojisuText.text = mojisu + "文字";
             
             Debug.Log(txt);
             Debug.Log(lastChar);
         }
-        else
-        {
-            if (txt[0] == lastChar)
-            {
-                GameOver();
-            }
-            Debug.Log("❌ NG");
-        }
-
         loadObj.SetActive(false);
     }
 
     private async Task<bool> IsShiritori(string txt)
     {
-        if (txt[0] == lastChar && !usedWords.Contains(txt))
+        if (txt[0] == lastChar)
         {
             bool isRealWord = await CheckWord(txt);
             return isRealWord;
         }
-        else
-        {
-            return false;
-        }
+        return false;
     }
 
     public async Task<bool> CheckWord(string word)
@@ -220,4 +245,25 @@ public class ShiritoriManager : MonoBehaviour
             mojisu++;
         }
     }
+
+    void GameOver()
+    {
+        gameOver = true;
+        gameOverMenu.SetActive(true);
+        menu.SetActive(false);
+        gameOvermojisuText.text = mojisu + "文字";
+        // 各オブジェクトに対して弾けるアニメーションを実行
+        foreach (GameObject obj in _mojiList)
+        {
+            Transform trans = obj.transform;
+            // Rigidbodyがなければ追加し、IsKinematicをtrueに設定
+            Rigidbody2D rb = trans.GetComponent<Rigidbody2D>();
+            if (rb == null)
+            {
+                rb = trans.gameObject.AddComponent<Rigidbody2D>();
+            }
+            rb.isKinematic = false;
+        }
+    }
+
 }

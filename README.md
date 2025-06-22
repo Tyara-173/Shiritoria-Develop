@@ -35,11 +35,12 @@
 
 # 実行手順
 
-[]をダウンロードし，Shiritoria.exeを実行してください．（Windows以外での動作確認はできておりません．）
+https://github.com/Tyara-173/Shiritoria_Desktop をダウンロードし，Shiritoria.exeを実行してください．（Windows以外での動作確認はできておりません．）
 
 # 参考にしたサイト
 https://w.atwiki.jp/ultimate/pages/16.html<br>
 https://note.com/5mingame2/n/n341823e433a3
+https://github.com/matthiaszarzecki/MadeWithUnityBadges
 
 # AIの使用について
 

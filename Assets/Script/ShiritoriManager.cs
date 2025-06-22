@@ -6,6 +6,7 @@ using UnityEngine.Networking;
 using TMPro;
 using System.Threading.Tasks;
 using DG.Tweening;
+using Random = System.Random;
 
 public class ShiritoriManager : MonoBehaviour
 {
@@ -17,20 +18,26 @@ public class ShiritoriManager : MonoBehaviour
     public char lastChar = 'り';
     private List<GameObject> _mojiList = new List<GameObject>();
     private float x, y, size;
+    private int l = 15;
     private int cnt, mojisu = 0;
     private HashSet<string> usedWords = new HashSet<string>();
+    private static readonly Dictionary<char, char> SmallToLargeMap = new Dictionary<char, char>
+    {
+        { 'ぁ', 'あ' }, { 'ぃ', 'い' }, { 'ぅ', 'う' }, { 'ぇ', 'え' }, { 'ぉ', 'お' },
+        { 'っ', 'つ' }, { 'ゃ', 'や' }, { 'ゅ', 'ゆ' }, { 'ょ', 'よ' }, { 'ゎ', 'わ' }
+    };
     void Start()
     {
         inputField.onValidateInput += ValidateHiragana;
         try
         {
             Vector2 c = Camera.main.ViewportToWorldPoint(Vector2.zero);
-            size = -(c.x * 2) / 10;
+            size = -(c.x * 2) / l;
             x = c.x+size/2;
             y = c.y+size/2;
             mojiObj.transform.localScale = new Vector3(size,size,1);
         }
-        catch (Exception e) {}
+        catch (Exception e) {}  
         
     }
 
@@ -38,6 +45,23 @@ public class ShiritoriManager : MonoBehaviour
     {
         
     }
+
+    void GameOver()
+    {
+        // 各オブジェクトに対して弾けるアニメーションを実行
+        foreach (GameObject obj in _mojiList)
+        {
+            Transform trans = obj.transform;
+            // Rigidbodyがなければ追加し、IsKinematicをtrueに設定
+            Rigidbody2D rb = trans.GetComponent<Rigidbody2D>();
+            if (rb == null)
+            {
+                rb = trans.gameObject.AddComponent<Rigidbody2D>();
+            }
+            rb.isKinematic = false;
+        }
+    }
+    
     private char ValidateHiragana(string text, int charIndex, char addedChar)
     {
         if ((addedChar >= '\u3040' && addedChar <= '\u309F') || addedChar == 'ー')
@@ -67,20 +91,23 @@ public class ShiritoriManager : MonoBehaviour
 
         bool isValid = await IsShiritori(txt);
 
-        if (isValid)
+        char templast = ' ';
+        
+        for (int i = txt.Length - 1; i >= 0; i--)
+        {
+            if (txt[i] == 'ー')
+            {
+                continue;
+            }
+            templast = SmallToLargeMap.GetValueOrDefault(txt[i], txt[i]);
+            break;
+        }
+
+        if (templast != 'ん' && isValid)
         {
             Debug.Log("✅ OK");
 
-            for (int i = txt.Length - 1; i >= 0; i--)
-            {
-                if (txt[i] == 'ー')
-                {
-                    continue;
-                }
-                lastChar = txt[i];
-                break;
-            }
-
+            lastChar = templast;
             backText.text = txt;
             cnt++;
             inputField.text = "";
@@ -93,6 +120,10 @@ public class ShiritoriManager : MonoBehaviour
         }
         else
         {
+            if (txt[0] == lastChar)
+            {
+                GameOver();
+            }
             Debug.Log("❌ NG");
         }
 
@@ -173,25 +204,19 @@ public class ShiritoriManager : MonoBehaviour
 
     void SpownCube(string text)
     {
-        bool move = false;
         for (var i = cnt == 1 ? 0 : 1; i < text.Length; i++)
         {
+            if (mojisu > 0 && mojisu % l == 0)
+            {
+                x -= size * l;
+                y -= size;
+                Camera.main.transform.DOMoveY(-size,1f).SetRelative(true).SetEase(Ease.Linear);
+            }
             GameObject moji = Instantiate(mojiObj, new Vector3(x, y, 0), Quaternion.identity, transform);
             moji.GetComponent<MojiCube>().SetMoji(text[i]);
             _mojiList.Add(moji);
             x+=size;
             mojisu++;
-            if (mojisu % 10 == 0)
-            {
-                x -= size * 10;
-                y -= size;
-                move = true;
-            }
-        }
-
-        if (move)
-        {
-            Camera.main.transform.DOMoveY(-size,1f).SetRelative(true).SetEase(Ease.Linear);
         }
     }
 }

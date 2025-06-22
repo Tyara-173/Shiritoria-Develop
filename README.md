@@ -35,7 +35,7 @@
 
 # 実行手順
 
-[]をダウンロードし，Shiritoria.exeを実行してください．（Windows以外での動作確認はできておりません．）
+https://github.com/Tyara-173/Shiritoria_Desktopをダウンロードし，Shiritoria.exeを実行してください．（Windows以外での動作確認はできておりません．）
 
 # 参考にしたサイト
 https://w.atwiki.jp/ultimate/pages/16.html<br>

@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: 3f007ba94b9c1ab4dae51bcb73e371c9
+guid: 68cba262d34e43742afce150ca8a97ea
 TrueTypeFontImporter:
   externalObjects: {}
   serializedVersion: 4
@@ -10,9 +10,7 @@ TrueTypeFontImporter:
   includeFontData: 1
   fontNames:
   - Jiyucho
-  fallbackFontReferences:
-  - {fileID: 12800000, guid: ca356d35871773d4faaf7ef4451790d5, type: 3}
-  - {fileID: 12800000, guid: 68cba262d34e43742afce150ca8a97ea, type: 3}
+  fallbackFontReferences: []
   customCharacters: 
   fontRenderingMode: 0
   ascentCalculationMode: 1

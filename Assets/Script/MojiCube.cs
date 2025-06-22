@@ -1,11 +1,11 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using TMPro;
+using UnityEngine.UI;
 
 public class MojiCube : MonoBehaviour
 {
-    public TMP_Text moji;
+    public Text moji;
     public Sprite[] backImages;
     private Renderer objRenderer;
     
@@ -17,14 +17,14 @@ public class MojiCube : MonoBehaviour
 
     void Update()
     {
-        if (!objRenderer.isVisible)
-        {
-            Destroy(gameObject);
-        }
+        // if (!objRenderer.isVisible)
+        // {
+        //     Destroy(gameObject);
+        // }
     }
     
     public void SetMoji(char c)
     {
-        moji.SetText(c.ToString());
+        moji.text = c.ToString();
     }
 }

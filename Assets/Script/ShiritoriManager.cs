@@ -6,13 +6,14 @@ using UnityEngine.Networking;
 using TMPro;
 using System.Threading.Tasks;
 using DG.Tweening;
+using UnityEngine.UI;
 using Random = System.Random;
 
 public class ShiritoriManager : MonoBehaviour
 {
-    public TMP_Text backText;
-    public TMP_InputField inputField;
-    public TMP_Text inputNextText;
+    public Text backText;
+    public InputField inputField;
+    public Text inputNextText;
     public GameObject loadObj;
     public GameObject mojiObj;
     public char lastChar = 'り';
@@ -111,7 +112,7 @@ public class ShiritoriManager : MonoBehaviour
             backText.text = txt;
             cnt++;
             inputField.text = "";
-            inputNextText.SetText(lastChar.ToString());
+            inputNextText.text = lastChar.ToString();
             usedWords.Add(txt);
             SpownCube(txt);
             

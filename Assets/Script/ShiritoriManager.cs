@@ -36,7 +36,7 @@ public class ShiritoriManager : MonoBehaviour
     };
     void Start()
     {
-        inputField.onValidateInput += ValidateHiragana;
+        // inputField.onValidateInput += ValidateHiragana;
         try
         {
             Vector2 c = Camera.main.ViewportToWorldPoint(Vector2.zero);
@@ -63,7 +63,7 @@ public class ShiritoriManager : MonoBehaviour
         }
         
     }
-    private char ValidateHiragana(string text, int charIndex, char addedChar)
+    private char ValidateHiragana(char addedChar)
     {
         if ((addedChar >= '\u3040' && addedChar <= '\u309F') || addedChar == 'ー')
         {
@@ -88,6 +88,16 @@ public class ShiritoriManager : MonoBehaviour
     public void Title()
     {
         SceneManager.LoadScene("Title");
+    }
+
+    public void EndTextEvent()
+    {
+        string temptext = "";
+        for (var i = 0; i < inputField.text.Length; i++)
+        {
+            temptext += ValidateHiragana(inputField.text[i]);
+        }
+        inputField.text = temptext;
     }
 
     public void OnTextEvent()

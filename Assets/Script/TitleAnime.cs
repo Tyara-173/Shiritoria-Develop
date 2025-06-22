@@ -37,7 +37,7 @@ public class TitleAnime : MonoBehaviour
         spawnYPosition = -c.y+2f;
         endYPosition = c.y-2f;
         Debug.Log(c);
-        DOVirtual.DelayedCall(spawnInterval, SpawnObject).SetLoops(-1);
+        // DOVirtual.DelayedCall(spawnInterval, SpawnObject).SetLoops(-1);
     }
 
     // Update is called once per frame
